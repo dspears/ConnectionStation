@@ -6,5 +6,7 @@ import { Component } from '@angular/core';
   styleUrls: ['./app.component.css']
 })
 export class AppComponent {
-  title = 'app';
+  title = 'Nokia Connection Station!!';
+  info = "Hello from Parent";
+  version = "0.1";
 }
