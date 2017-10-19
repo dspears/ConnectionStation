@@ -1,0 +1,13 @@
+.player {
+  background: darkblue;
+  border: 2px solid black;
+  display: inline-block;
+  position: absolute;
+  color: white;
+  font-weight: bold;
+  min-width: 110px;
+  min-height: 75px;
+  border-radius: 50%;
+  vertical-align: middle;
+  transition: 
+}

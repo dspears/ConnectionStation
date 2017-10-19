@@ -7,6 +7,6 @@ import { Component } from '@angular/core';
 })
 export class AppComponent {
   title = 'Nokia Connection Station!!';
-  info = "Hello from Parent";
+  info = "Discover and Connect";
   version = "0.1";
 }

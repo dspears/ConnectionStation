@@ -2,6 +2,12 @@
 {{title}}
 </h1>
 <p>{{parentInfo}}</p>
+<div id="gameBoard">
+  <div class="playerContainer" *ngFor="let player of players">
+    <player-visual [player]="player"></player-visual>
+  </div>
+</div>
+<!--
 <ul id="gameParticipants">
   <li *ngFor="let user of users"
       [style.left]="getRandomLeft()"
@@ -10,3 +16,4 @@
     <div>{{user.pstring}}</div>
   </li>
 </ul>
+--->
