@@ -1,4 +1,17 @@
-.player {
+div.player {
+    position: absolute;
+    width: 230px;
+    height: 80px; 
+    padding: 10px;
+    -webkit-border-radius: 10px;
+    -moz-border-radius: 10px;
+    border-radius: 10px;
+    background-color:#0FF;
+    text-align:center;
+    cursor:pointer; }
+
+
+/* .player {
   background: darkblue;
   border: 2px solid black;
   display: inline-block;
@@ -10,4 +23,4 @@
   border-radius: 50%;
   vertical-align: middle;
   transition: 
-}
+} */
