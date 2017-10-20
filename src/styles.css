@@ -1,4 +1,17 @@
 /* You can add global styles to this file, and also import other style files */
 body {
-  background: cyan;
+  background: url(assets/pattern.png);
+  background-size: cover;
+  color: #124191;
+}
+
+h1 {
+  margin: 13px;
+  font-family: helvetica;
+  letter-spacing: 17px;
+  font-size: 48px;
+}
+
+img {
+  margin-top: 5%;
 }

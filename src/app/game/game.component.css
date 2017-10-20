@@ -1,4 +1,9 @@
-h1 { color: purple; }
+h1 {
+  margin: 13px;
+      font-family: helvetica;
+      letter-spacing: 17px;
+      font-size: 48px;
+}
 
 ul {
   position: relative;
