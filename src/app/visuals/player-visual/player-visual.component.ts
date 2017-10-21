@@ -4,7 +4,7 @@ import { Player } from '../../models/Player';
 @Component({
   selector: 'player-visual',
   template: `
-    <div id="player.rfid" class="player" [style.top]="player.y+'px'" [style.left]="player.x+'px'">
+    <div id="player.rfid" class="player" [style.backgroundColor]="player.color" [style.top]="player.y+'px'" [style.left]="player.x+'px'">
       {{player.name}} - {{player.pstring}}
     </div>
   `,
