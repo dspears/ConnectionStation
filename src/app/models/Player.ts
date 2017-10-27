@@ -2,6 +2,7 @@
 export class Player {
   x: number;
   y: number;
+  state: string;
   vx?: number;
   vy?: number;
   fx?: number | null;
@@ -19,9 +20,9 @@ export class Player {
   containerWidth: number;
 
 
-  constructor(name:string, pstring:string, rfid:string) {
-    this.containerWidth = 0;
-    this.containerHeight = 0;
+  constructor(name:string, pstring:string, rfid:string, w, h) {
+    this.containerWidth = w;
+    this.containerHeight = h;
     this.name = name;
     this.pstring = pstring;
     this.rfid = rfid;
@@ -30,7 +31,12 @@ export class Player {
     this.resetPosition();
     this.resetVelocity();
     this.resetVectors();
-    this.resetColor();
+    this.state = "name";
+    //this.resetColor();
+  }
+
+  setState(s) {
+    this.state = s;
   }
 
   setBoundingBox(width,height) {
@@ -63,7 +69,7 @@ export class Player {
   }
 
   resetVelocity() {
-    this.velocity = Math.random()*3;
+    this.velocity = 5+Math.random()*3;
   }
 
   resetVectors() {

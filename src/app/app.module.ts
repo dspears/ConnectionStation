@@ -11,12 +11,14 @@ import { PlayerVisualComponent } from './visuals/player-visual/player-visual.com
 
 import {Router, ActivatedRoute, Params} from '@angular/router';
 import { AppRoutingModule } from './app-routing.module';
+import { TimerVisualComponent } from './visuals/timer-visual/timer-visual.component';
 
 @NgModule({
   declarations: [
     AppComponent,
     GameComponent,
-    PlayerVisualComponent
+    PlayerVisualComponent,
+    TimerVisualComponent
   ],
   imports: [
     BrowserModule,

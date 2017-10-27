@@ -1,26 +1,57 @@
 div.player {
     position: absolute;
     width: 230px;
-    height: 80px; 
+    height: 139px;
     padding: 10px;
-    -webkit-border-radius: 10px;
-    -moz-border-radius: 10px;
-    border-radius: 10px;
-    background-color:#0FF;
-    text-align:center;
-    cursor:pointer; }
+    border-radius: 50%;
+    color: navy;
+    font-family: arial;
+    font-size: 40px;
+    font-weight: bold;
+    text-align: center;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border: 4px solid navy;
+    box-shadow: 3px 5px 9px 1px #8888a9;
+    background: rgb(188, 218, 159);
 
+    background-color: rgb(243, 228, 83);
+    color: black; /*rgb(177, 19, 216);*/
+    border-color: rgb(216, 209, 19);
+}
+/*
+         1         2         3         4         5         6         7         8         9         0         1         2
+1234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890
+Now is the time for all good men to come to the aid of their country. Now is the time for all good men to come to the aid of their
+*/
+div.player span {
+  display: none;
+}
 
-/* .player {
-  background: darkblue;
-  border: 2px solid black;
-  display: inline-block;
-  position: absolute;
-  color: white;
-  font-weight: bold;
-  min-width: 110px;
-  min-height: 75px;
-  border-radius: 50%;
-  vertical-align: middle;
-  transition: 
-} */
+div.name span.name {
+  display: inline;
+}
+
+div.name.pstring span.dash {
+  display: inline;
+}
+
+div.name.pstring span.name {
+  float: left;
+}
+
+div.pstring span.pstring {
+  display: inline;
+}
+
+div.player.pstring {
+  width: 330px;
+  height: 150px;
+  background: green;
+  border-radius: 30px;
+  font-size: 20px;
+  /*transform: skew(10deg);*/
+  transition: width 2s, height 2s, background 2s, transform 2s, border-radius 2s ease-in-out;
+}

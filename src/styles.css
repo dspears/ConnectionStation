@@ -10,6 +10,7 @@ body {
   color: #124191;
   height: 100%;
   width: 100%;
+  overflow: hidden;
 }
 
 * {
@@ -39,6 +40,6 @@ app-root, app-root > div, app-root > div > game {
 }
 
 game {
-  border: 2px solid red;
+  /*border: 2px solid red;*/
 
 }

@@ -4,14 +4,18 @@ import { Player } from '../../models/Player';
 @Component({
   selector: 'player-visual',
   template: `
-    <div id="player.rfid" class="player" [style.backgroundColor]="player.color" [style.top]="player.y+'px'" [style.left]="player.x+'px'">
-      {{player.name}} - {{player.pstring}}
+    <div id="player.rfid" [class]="player.state+' player'" [style.backgroundColor]="player.color" [style.top]="player.y+'px'" [style.left]="player.x+'px'">
+      <p>
+        <span class="name">{{player.name}}</span>
+        <span class="dash"> - </span>
+        <span class="pstring">{{player.pstring}}</span>
+      </p>
     </div>
   `,
   styleUrls: ['./player-visual.component.css']
 })
 export class PlayerVisualComponent implements OnInit {
-
+  // TODO: When do we add {{player.pstring}}
   @Input('player') player: Player;
 
   constructor(private _elementRef : ElementRef) { }
