@@ -11,6 +11,25 @@ const WAIT_MIN_PLAYERS='waitMinPlayers';
 const WAIT_MORE_PLAYERS='waitMorePlayers';
 const SHOWING_PSTRINGS='showingPstrings';
 const SHOWING_NAMES='showingNames';
+/*
+  Index-1 (v1):
+    7  1  2  8
+    5  3  4  6
+   11  9 10 12
+
+  Index-1 (v2):
+    9  1  2 10
+    7  3  4  8
+   11  5  6 12
+
+   Maps to:
+    1  2  3  4
+    5  6  7  8
+    9 10 11 12
+*/
+const PLAYER_LAYOUT_ORDER = [
+  2, 3, 6, 7, 5, 8, 1, 4, 10, 11, 9, 12,
+];
 
 @Component({
   selector: 'game',
@@ -124,7 +143,7 @@ export class GameComponent implements OnInit, OnDestroy{
             if (this.players.length < limit) {
               if (!this.playerExists(user.rfid)) {
                 console.log("Player does not exist.  Creating. ", user.rfid);
-                var player = new Player(user.name,user.pstring,user.rfid, w, h, this.players.length+1);
+                var player = new Player(user.name,user.pstring,user.rfid, w, h, PLAYER_LAYOUT_ORDER[this.players.length]);
                 this.players.push(player);
               } else {
                 //console.log("Player exists: ",user.rfid)
