@@ -81,18 +81,18 @@ div.player.pstring.grid {
   animation-fill-mode: forwards;
 }
 
-div#player1.grid  { top:200px !important; left:100px !important; }
-div#player2.grid  { top:200px !important; left:440px !important; }
-div#player3.grid  { top:200px !important; left:780px !important; }
-div#player4.grid  { top:200px !important; left:1120px !important; }
-div#player5.grid  { top:400px !important; left:100px !important; }
-div#player6.grid  { top:400px !important; left:440px !important; }
-div#player7.grid  { top:400px !important; left:780px !important; }
-div#player8.grid  { top:400px !important; left:1120px !important; }
-div#player9.grid  { top:600px !important; left:100px !important; }
-div#player10.grid { top:600px !important; left:440px !important; }
-div#player11.grid { top:600px !important; left:780px !important; }
-div#player12.grid { top:600px !important; left:1120px !important; }
+div#player1.grid  { top:200px !important; left:290px !important; }
+div#player2.grid  { top:200px !important; left:630px !important; }
+div#player3.grid  { top:200px !important; left:970px !important; }
+div#player4.grid  { top:200px !important; left:1310px !important; }
+div#player5.grid  { top:400px !important; left:290px !important; }
+div#player6.grid  { top:400px !important; left:630px !important; }
+div#player7.grid  { top:400px !important; left:970px !important; }
+div#player8.grid  { top:400px !important; left:1310px !important; }
+div#player9.grid  { top:600px !important; left:290px !important; }
+div#player10.grid { top:600px !important; left:630px !important; }
+div#player11.grid { top:600px !important; left:970px !important; }
+div#player12.grid { top:600px !important; left:1310px !important; }
 
 @keyframes gridPositions {
   0% {
