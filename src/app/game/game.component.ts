@@ -1,5 +1,4 @@
-import { Input,  ChangeDetectorRef, ChangeDetectionStrategy } from '@angular/core';
-import { GameServiceService } from '../game-service/game-service.service'
+import { Input,  ChangeDetectorRef, ChangeDetectionStrategy, HostListener } from '@angular/core';
 import {HttpClient} from '@angular/common/http';
 import { Observable} from "rxjs/Observable";
 import {Subscription} from "rxjs/Subscription";
@@ -38,10 +37,21 @@ export class GameComponent implements OnInit, OnDestroy{
   stationID:string;
   parent;
   gameState:string;
+  isPaused: boolean = false;
   adminPasswd: string = "Zaphod42_";
   stationPasswd: string;
   timer1 : Timer;
   numActivePlayers: number;
+  numberOfClicks: number = 0;
+  @HostListener('document:click', ['$event']) onClick(btn) {
+    this.numberOfClicks++;
+    if (this.numberOfClicks % 2 == 0) {
+      this.resumeGame();
+    } else {
+      this.pauseGame();
+    }
+
+  }
 
   constructor(private httpClient: HttpClient, private ref: ChangeDetectorRef) {
     var a = window.location.href.split('/')
@@ -77,6 +87,18 @@ export class GameComponent implements OnInit, OnDestroy{
     this.timer1.setMessage("Place your badge on the table to play!");
   }
 
+  pauseGame() {
+    this.timer1.pauseTimer();
+    this.isPaused = true;
+    console.log("Pausing game...");
+  }
+
+  resumeGame() {
+    this.timer1.resumeTimer();
+    this.isPaused = false;
+    console.log("Resuming game...");
+  }
+
   ngOnInit(){
     this.parent = document.getElementById("gameBoard");
     this.getPlayers(200);
@@ -99,10 +121,10 @@ export class GameComponent implements OnInit, OnDestroy{
           // Info from server:
           this.users=data;
           this.users.forEach((user,i) => {
-            if (this.players.length <= limit) {
+            if (this.players.length < limit) {
               if (!this.playerExists(user.rfid)) {
                 console.log("Player does not exist.  Creating. ", user.rfid);
-                var player = new Player(user.name,user.pstring,user.rfid, w, h);
+                var player = new Player(user.name,user.pstring,user.rfid, w, h, this.players.length+1);
                 this.players.push(player);
               } else {
                 //console.log("Player exists: ",user.rfid)
@@ -167,7 +189,7 @@ export class GameComponent implements OnInit, OnDestroy{
         if (timerExpired) {
           // Start game with players we have.
           this.gameState = SHOWING_PSTRINGS;
-          this.setStateOfPlayers('pstring');
+          this.setStateOfPlayers('pstring grid');
           this.timer1.setMessage("Match people to statements!");
           this.timer1.setTimer(20);
           this.timer1.startTimer();
@@ -181,9 +203,9 @@ export class GameComponent implements OnInit, OnDestroy{
         if (timerExpired) {
           // Now reveal names
           this.gameState = SHOWING_NAMES;
-          this.setStateOfPlayers('name pstring');
+          this.setStateOfPlayers('name pstring grid');
           this.timer1.setMessage("Time to next game: ");
-          this.timer1.setTimer(30);
+          this.timer1.setTimer(20);
           this.timer1.startTimer();
         }
       break;
@@ -236,8 +258,12 @@ export class GameComponent implements OnInit, OnDestroy{
   runPollingTimer() {
     var self = this;
     setInterval(function() {
-      self.getPlayers(10);
+      self.getPlayers(12);
     },500);
+  }
+
+  shouldAnimate() {
+    return !this.isPaused && this.gameState != SHOWING_NAMES && this.gameState != SHOWING_PSTRINGS;
   }
 
   // The animation loop.
@@ -248,10 +274,12 @@ export class GameComponent implements OnInit, OnDestroy{
     var h = self.parent.clientHeight;
     var animate = function() {
       // console.log("w:",w,"h:",h);
-      self.players.forEach( p => {
-        p.setBoundingBox(w,h);
-        p.move();
-      });
+      if (self.shouldAnimate()) {
+        self.players.forEach( p => {
+          p.setBoundingBox(w,h);
+          p.move();
+        });
+      }
       self.ref.markForCheck();
       if (self.gameState != 'gameOver') {
         requestAnimationFrame(animate);

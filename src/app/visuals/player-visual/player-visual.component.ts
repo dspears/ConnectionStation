@@ -4,10 +4,9 @@ import { Player } from '../../models/Player';
 @Component({
   selector: 'player-visual',
   template: `
-    <div id="player.rfid" [class]="player.state+' player'" [style.backgroundColor]="player.color" [style.top]="player.y+'px'" [style.left]="player.x+'px'">
+    <div [id]="player.id" [class]="player.state+' player '" [style.backgroundColor]="player.color" [style.top]="player.y+'px'" [style.left]="player.x+'px'">
       <p>
         <span class="name">{{player.name}}</span>
-        <span class="dash"> - </span>
         <span class="pstring">{{player.pstring}}</span>
       </p>
     </div>

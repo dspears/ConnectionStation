@@ -39,19 +39,83 @@ div.name.pstring span.dash {
 }
 
 div.name.pstring span.name {
-  float: left;
+  display: block;
+  font-size: 30px;
+  height: 1em;
+  color: navy;
+  /*transition: all 3s;*/
+  animation-name: animateName;
+  animation-duration: 2s;
+  animation-timing-function: ease-in-out;
+  animation-fill-mode: forwards;
+}
+
+@keyframes animateName {
+  0% {
+    height: 0;
+    color: rgba(0,0,0,0);
+  }
+  100% {
+    height: 1em;
+    color: navy;
+  }
 }
 
 div.pstring span.pstring {
   display: inline;
 }
 
-div.player.pstring {
+div.player.pstring.grid {
+  /*
   width: 330px;
   height: 150px;
   background: green;
   border-radius: 30px;
   font-size: 20px;
-  /*transform: skew(10deg);*/
-  transition: width 2s, height 2s, background 2s, transform 2s, border-radius 2s ease-in-out;
+  transition: all 2s;
+  */
+  transition: top 2s, left 2s;
+  animation-name: gridPositions;
+  animation-duration: 2s;
+  animation-timing-function: ease-in-out;
+  animation-fill-mode: forwards;
+}
+
+div#player1.grid  { top:200px !important; left:100px !important; }
+div#player2.grid  { top:200px !important; left:440px !important; }
+div#player3.grid  { top:200px !important; left:780px !important; }
+div#player4.grid  { top:200px !important; left:1120px !important; }
+div#player5.grid  { top:400px !important; left:100px !important; }
+div#player6.grid  { top:400px !important; left:440px !important; }
+div#player7.grid  { top:400px !important; left:780px !important; }
+div#player8.grid  { top:400px !important; left:1120px !important; }
+div#player9.grid  { top:600px !important; left:100px !important; }
+div#player10.grid { top:600px !important; left:440px !important; }
+div#player11.grid { top:600px !important; left:780px !important; }
+div#player12.grid { top:600px !important; left:1120px !important; }
+
+@keyframes gridPositions {
+  0% {
+    font-size: 0;
+    color: rgba(0,0,0,0);
+  }
+  20% {
+    transform: skew(30deg);
+  }
+  80% {
+    font-size: 21px;
+    line-height: 20px;
+    color: rgba(0,0,0,0);
+  }
+
+  100% {
+    width: 330px;
+    height: 150px;
+    background: lightgreen;
+    border-radius: 30px;
+    font-size: 21px;
+    line-height: 20px;
+    color: rgba(0,0,0,1);
+    transform: skew(0);
+  }
 }

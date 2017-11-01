@@ -18,9 +18,10 @@ export class Player {
   color: string;
   containerHeight: number;
   containerWidth: number;
+  id: string;
 
 
-  constructor(name:string, pstring:string, rfid:string, w, h) {
+  constructor(name:string, pstring:string, rfid:string, w, h, id) {
     this.containerWidth = w;
     this.containerHeight = h;
     this.name = name;
@@ -32,6 +33,7 @@ export class Player {
     this.resetVelocity();
     this.resetVectors();
     this.state = "name";
+    this.id = 'player'+id;
     //this.resetColor();
   }
 
