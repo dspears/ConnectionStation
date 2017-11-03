@@ -282,7 +282,8 @@ export class GameComponent implements OnInit, OnDestroy{
   }
 
   shouldAnimate() {
-    return !this.isPaused && this.gameState != SHOWING_NAMES && this.gameState != SHOWING_PSTRINGS;
+    //return !this.isPaused && this.gameState != SHOWING_NAMES && this.gameState != SHOWING_PSTRINGS;
+    return this.gameState != SHOWING_NAMES && this.gameState != SHOWING_PSTRINGS;
   }
 
   // The animation loop.
