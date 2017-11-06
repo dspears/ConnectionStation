@@ -11,6 +11,8 @@ const WAIT_MIN_PLAYERS='waitMinPlayers';
 const WAIT_MORE_PLAYERS='waitMorePlayers';
 const SHOWING_PSTRINGS='showingPstrings';
 const SHOWING_NAMES='showingNames';
+const MIN_PLAYERS=2;
+const MAX_PLAYERS=10;
 /*
   Index-1 (v1):
     7  1  2  8
@@ -22,14 +24,24 @@ const SHOWING_NAMES='showingNames';
     7  3  4  8
    11  5  6 12
 
+    3  1  2  4
+    5        6
+    9  7  8 10
+
    Maps to:
     1  2  3  4
     5  6  7  8
     9 10 11 12
 */
 const PLAYER_LAYOUT_ORDER = [
-  2, 3, 6, 7, 5, 8, 1, 4, 10, 11, 9, 12,
+  //2, 3, 6, 7, 5, 8, 1, 4, 10, 11, 9, 12,
+  2, 3, 1, 4, 5, 8, 10, 11, 9, 12
 ];
+
+class ServerResponse {
+  players: Player[];
+  queue: Player[];
+}
 
 @Component({
   selector: 'game',
@@ -49,7 +61,8 @@ export class GameComponent implements OnInit, OnDestroy{
   hide = true;
   users: any[] = [];
   players: Player[] = [];
-  theDataSource: Observable<any[]>;
+  queue: Player[] = [];
+  theDataSource: Observable<ServerResponse>;
   gameStartApi: Observable<any[]>;
   userSubscription: Subscription;
   error:string;
@@ -57,6 +70,7 @@ export class GameComponent implements OnInit, OnDestroy{
   parent;
   gameState:string;
   isPaused: boolean = false;
+  showCount: number = 0;
   adminPasswd: string = "Zaphod42_";
   stationPasswd: string;
   timer1 : Timer;
@@ -79,7 +93,8 @@ export class GameComponent implements OnInit, OnDestroy{
     this.stationID = stationInfo[0];
     this.stationPasswd = stationInfo.length > 1 ? stationInfo[1] : '';
     console.log("STATION ID: ",this.stationID, this.stationPasswd);
-    this.theDataSource = this.httpClient.get<any[]>('/api/users/'+this.stationID);
+    this.theDataSource = this.httpClient.get<ServerResponse>('/api/users/'+this.stationID);
+    //this.theQueueSource = this.httpClient.get<any[]>('/api/queue/'+this.stationID);
     this.gameStartApi = this.httpClient.get<any[]>('/api/game/start/'+this.stationID);
 
     this.timer1 = new Timer(0,this.timer1Tick.bind(this),this.timer1Expired.bind(this));
@@ -138,7 +153,9 @@ export class GameComponent implements OnInit, OnDestroy{
         // If Game is "running" don't allow more people to join.
         if (this.gameState !== SHOWING_PSTRINGS  && this.gameState !== SHOWING_NAMES) {
           // Info from server:
-          this.users=data;
+          console.log(data);
+          this.users=data.players;
+          this.queue=data.queue;
           this.users.forEach((user,i) => {
             if (this.players.length < limit) {
               if (!this.playerExists(user.rfid)) {
@@ -176,6 +193,25 @@ export class GameComponent implements OnInit, OnDestroy{
     );
   }
 
+  addPlayersFromQueue() {
+    console.log("Add players from q ",this.queue);
+    var w = this.parent.clientWidth;
+    var h = this.parent.clientHeight;
+    var addCount = 0;
+    this.queue.forEach((user,i) => {
+      if (this.players.length < MAX_PLAYERS) {
+        if (!this.playerExists(user.rfid)) {
+          console.log("Player does not exist.  Creating. ", user.rfid);
+          addCount++;
+          var player = new Player(user.name,user.pstring,user.rfid, w, h, PLAYER_LAYOUT_ORDER[this.players.length]);
+          this.players.push(player);
+        } else {
+          //console.log("Player exists: ",user.rfid)
+        }
+      }
+    });
+    return addCount;
+  }
 
   updateGameState(numPlayers,timerExpired) {
     switch (this.gameState) {
@@ -196,7 +232,17 @@ export class GameComponent implements OnInit, OnDestroy{
         if (timerExpired) {
           // Not enough players joined in time.
           this.startGame();
-        } else if (numPlayers >= 3) {
+          /*
+          if (this.addPlayersFromQueue() > 0) {
+            this.timer1.setMessage("Game about to start...  still time to join!");
+            this.timer1.setTimer(10);
+            this.timer1.startTimer();
+            this.gameState = WAIT_MORE_PLAYERS;
+          } else {
+            this.startGame();
+          }
+          */
+        } else if (numPlayers >= MIN_PLAYERS) {
           this.timer1.setMessage("Game about to start...  still time to join!");
           this.timer1.setTimer(10);
           this.timer1.startTimer();
@@ -210,8 +256,22 @@ export class GameComponent implements OnInit, OnDestroy{
           this.gameState = SHOWING_PSTRINGS;
           this.setStateOfPlayers('pstring grid');
           this.timer1.setMessage("Match people to statements!");
-          this.timer1.setTimer(20);
+          this.timer1.setTimer(5); // 20
           this.timer1.startTimer();
+          /*
+          if (this.addPlayersFromQueue() > 0) {
+            // Stay in state for one more round
+            this.timer1.setTimer(10);
+            this.timer1.startTimer();
+          } else {
+            // Start game with players we have.
+            this.gameState = SHOWING_PSTRINGS;
+            this.setStateOfPlayers('pstring grid');
+            this.timer1.setMessage("Match people to statements!");
+            this.timer1.setTimer(20);
+            this.timer1.startTimer();
+          }
+          */
         } else {
           // Stay in this state but reset timer
           this.timer1.setTimer(10);
@@ -223,18 +283,43 @@ export class GameComponent implements OnInit, OnDestroy{
           // Now reveal names
           this.gameState = SHOWING_NAMES;
           this.setStateOfPlayers('name pstring grid');
-          this.timer1.setMessage("Time to next game: ");
-          this.timer1.setTimer(20);
+          this.timer1.setMessage("");
+          this.timer1.setTimer(5); // 20
           this.timer1.startTimer();
+          this.showCount = -1;
+          /*
+          self = this;
+          setTimeout( function() {
+            self.players[0].state = "name pstring grid hilighted";
+            console.log("Hilighting player 0");
+            self.ref.markForCheck();
+            setTimeout(function() {
+              //self.players[0].state = "name pstring grid";
+              console.log("Un-Hilighting player 0");
+              self.ref.markForCheck();
+            },5000);
+          }, 2000);
+          */
         }
       break;
       case SHOWING_NAMES:
         if (timerExpired) {
-          this.timer1.stopTimer();
-          this.startGame();
-          // Fix trace condition
-          var self = this;
-          setTimeout(function() { self.startGame() }, 500);
+          if (this.showCount >= 0 && this.showCount < this.players.length) {
+            this.players[this.showCount].state = "name pstring grid";
+          }
+          this.showCount++;
+          if (this.showCount < this.players.length) {
+            this.players[this.showCount].state = "name pstring grid hilighted";
+          }
+          if (this.showCount > this.players.length) {
+            this.timer1.stopTimer();
+            var self = this;
+            setTimeout(function() { self.startGame() }, 500);
+          } else {
+            // Run the timer again
+            this.timer1.setTimer(5); // 20
+            this.timer1.startTimer();
+          }
         }
       break;
       default:
@@ -277,7 +362,7 @@ export class GameComponent implements OnInit, OnDestroy{
   runPollingTimer() {
     var self = this;
     setInterval(function() {
-      self.getPlayers(12);
+      self.getPlayers(MAX_PLAYERS);
     },500);
   }
 

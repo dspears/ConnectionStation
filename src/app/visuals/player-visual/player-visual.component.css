@@ -66,14 +66,6 @@ div.pstring span.pstring {
 }
 
 div.player.pstring.grid {
-  /*
-  width: 330px;
-  height: 150px;
-  background: green;
-  border-radius: 30px;
-  font-size: 20px;
-  transition: all 2s;
-  */
   transition: top 2s, left 2s;
   animation-name: gridPositions;
   animation-duration: 2s;
@@ -93,6 +85,52 @@ div#player9.grid  { top:600px !important; left:290px !important; }
 div#player10.grid { top:600px !important; left:630px !important; }
 div#player11.grid { top:600px !important; left:970px !important; }
 div#player12.grid { top:600px !important; left:1310px !important; }
+
+div#player1.grid.hilighted,
+div#player2.grid.hilighted,
+div#player3.grid.hilighted,
+div#player4.grid.hilighted,
+div#player5.grid.hilighted,
+div#player6.grid.hilighted,
+div#player7.grid.hilighted,
+div#player8.grid.hilighted,
+div#player9.grid.hilighted,
+div#player10.grid.hilighted,
+div#player11.grid.hilighted,
+div#player12.grid.hilighted {
+  top: 400px !important;
+  left: 800px !important;
+  animation-name: hilightPosition;
+  animation-duration: 2s;
+  animation-timing-function: ease-in-out;
+  animation-fill-mode: forwards;
+  /*animation-direction: alternate;
+  animation-iteration-count: 1;*/
+}
+
+@keyframes hilightPosition {
+  0% {
+    transform: scale(1, 1);
+    width: 330px;
+    height: 150px;
+    background: lightgreen;
+    border-radius: 30px;
+    font-size: 21px;
+    line-height: 20px;
+    color: rgba(0,0,0,1);
+  }
+  100% {
+    transform: scale(1.4, 1.4);
+    border-color: gold;
+    width: 330px;
+    height: 150px;
+    background: lightgreen;
+    border-radius: 30px;
+    font-size: 21px;
+    line-height: 20px;
+    color: rgba(0,0,0,1);
+  }
+}
 
 @keyframes gridPositions {
   0% {
