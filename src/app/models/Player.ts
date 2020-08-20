@@ -48,7 +48,6 @@ export class Player {
     this.resetVectors();
     this.state = "name";
     this.id = 'player'+id;
-    //this.resetColor();
   }
 
   setState(s) {

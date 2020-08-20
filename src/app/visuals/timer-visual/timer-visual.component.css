@@ -7,17 +7,12 @@
   font-family: arial;
   font-weight: bold;
   transition: all 1s;
-  /*
-  position: absolute;
-  bottom: 10px;
-  right: 10px;
-  */
   border-radius: 5px;
   min-width: 110px;
 }
 
 .timer-visual.silent {
-  /*display: none;*/
+  /* display: none; */
 }
 
 .timer-visual.paused {

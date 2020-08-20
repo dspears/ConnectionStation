@@ -17,15 +17,11 @@ div.player {
     box-shadow: 3px 5px 9px 1px #8888a9;
     background: rgb(188, 218, 159);
 
-    background-color: rgb(251, 239, 145); /* rgb(243, 228, 83); */
-    color: black; /*rgb(177, 19, 216);*/
+    background-color: rgb(251, 239, 145); 
+    color: black; 
     border-color: rgb(216, 209, 19);
 }
-/*
-         1         2         3         4         5         6         7         8         9         0         1         2
-1234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890
-Now is the time for all good men to come to the aid of their country. Now is the time for all good men to come to the aid of their
-*/
+
 div.player span {
   display: none;
 }
@@ -111,7 +107,7 @@ div#player12.grid.hilighted {
 @keyframes hilightPosition {
   0% {
     transform: scale(1, 1);
-    width: 18%; /* 330px */
+    width: 18%; 
     height: 160px;
     background: lightgreen;
     border-radius: 30px;
@@ -147,7 +143,7 @@ div#player12.grid.hilighted {
   }
 
   100% {
-    width: 18%; /* 330px */
+    width: 18%; 
     height: 160px;
     background: lightgreen;
     border-radius: 30px;

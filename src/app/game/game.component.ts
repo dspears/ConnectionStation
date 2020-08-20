@@ -34,7 +34,6 @@ const MAX_PLAYERS=10;
     9 10 11 12
 */
 const PLAYER_LAYOUT_ORDER = [
-  //2, 3, 6, 7, 5, 8, 1, 4, 10, 11, 9, 12,
   2, 3, 1, 4, 5, 8, 10, 11, 9, 12
 ];
 
@@ -89,12 +88,10 @@ export class GameComponent implements OnInit, OnDestroy{
   constructor(private httpClient: HttpClient, private ref: ChangeDetectorRef) {
     var a = window.location.href.split('/')
     var stationInfo = a[a.length-2].split('-');
-    console.log(window.location.href, a);
     this.stationID = stationInfo[0];
     this.stationPasswd = stationInfo.length > 1 ? stationInfo[1] : '';
     console.log("STATION ID: ",this.stationID, this.stationPasswd);
     this.theDataSource = this.httpClient.get<ServerResponse>('/api/users/'+this.stationID);
-    //this.theQueueSource = this.httpClient.get<any[]>('/api/queue/'+this.stationID);
     this.gameStartApi = this.httpClient.get<any[]>('/api/game/start/'+this.stationID);
 
     this.timer1 = new Timer(0,this.timer1Tick.bind(this),this.timer1Expired.bind(this));
@@ -152,19 +149,15 @@ export class GameComponent implements OnInit, OnDestroy{
       data => {
         // If Game is "running" don't allow more people to join.
         if (this.gameState !== SHOWING_PSTRINGS  && this.gameState !== SHOWING_NAMES) {
-          // Info from server:
-          console.log(data);
           this.users=data.players;
           this.queue=data.queue;
           this.users.forEach((user,i) => {
             if (this.players.length < limit) {
               if (!this.playerExists(user.rfid)) {
-                console.log("Player does not exist.  Creating. ", user.rfid);
+                // Player does not exist.  Creating.
                 var player = new Player(user.name,user.pstring,user.rfid, w, h, PLAYER_LAYOUT_ORDER[this.players.length]);
                 this.players.push(player);
-              } else {
-                //console.log("Player exists: ",user.rfid)
-              }
+              } 
             }
           });
 
@@ -174,15 +167,11 @@ export class GameComponent implements OnInit, OnDestroy{
             var rfid = this.players[i].rfid;
             if (!this.playerInList(rfid,this.users)) {
               this.players.splice(i,1);
-              console.log("Removed player ",i,'rfid: ',rfid,this.players);
-            } else {
-              // console.log("Player exists in game.  rfid: ", rfid);
-            }
+            } 
           }
 
           // When the number of players changes update the game state.
           if (this.players.length != this.numActivePlayers || this.players.length==0) {
-            console.log('players.length: ',this.players.length,'numActivePlayers: ',this.numActivePlayers);
             this.numActivePlayers = this.players.length;
             this.updateGameState(this.players.length, false);
           }
@@ -194,19 +183,15 @@ export class GameComponent implements OnInit, OnDestroy{
   }
 
   addPlayersFromQueue() {
-    console.log("Add players from q ",this.queue);
     var w = this.parent.clientWidth;
     var h = this.parent.clientHeight;
     var addCount = 0;
     this.queue.forEach((user,i) => {
       if (this.players.length < MAX_PLAYERS) {
         if (!this.playerExists(user.rfid)) {
-          console.log("Player does not exist.  Creating. ", user.rfid);
           addCount++;
           var player = new Player(user.name,user.pstring,user.rfid, w, h, PLAYER_LAYOUT_ORDER[this.players.length]);
           this.players.push(player);
-        } else {
-          //console.log("Player exists: ",user.rfid)
         }
       }
     });
@@ -232,16 +217,6 @@ export class GameComponent implements OnInit, OnDestroy{
         if (timerExpired) {
           // Not enough players joined in time.
           this.startGame();
-          /*
-          if (this.addPlayersFromQueue() > 0) {
-            this.timer1.setMessage("Game about to start...  still time to join!");
-            this.timer1.setTimer(10);
-            this.timer1.startTimer();
-            this.gameState = WAIT_MORE_PLAYERS;
-          } else {
-            this.startGame();
-          }
-          */
         } else if (numPlayers >= MIN_PLAYERS) {
           this.timer1.setMessage("Game about to start...  still time to join!");
           this.timer1.setTimer(10);
@@ -258,20 +233,6 @@ export class GameComponent implements OnInit, OnDestroy{
           this.timer1.setMessage("Match people to statements!");
           this.timer1.setTimer(20); // 20
           this.timer1.startTimer();
-          /*
-          if (this.addPlayersFromQueue() > 0) {
-            // Stay in state for one more round
-            this.timer1.setTimer(10);
-            this.timer1.startTimer();
-          } else {
-            // Start game with players we have.
-            this.gameState = SHOWING_PSTRINGS;
-            this.setStateOfPlayers('pstring grid');
-            this.timer1.setMessage("Match people to statements!");
-            this.timer1.setTimer(20);
-            this.timer1.startTimer();
-          }
-          */
         } else {
           // Stay in this state but reset timer
           this.timer1.setTimer(10);
@@ -284,22 +245,9 @@ export class GameComponent implements OnInit, OnDestroy{
           this.gameState = SHOWING_NAMES;
           this.setStateOfPlayers('name pstring grid');
           this.timer1.setMessage("");
-          this.timer1.setTimer(5); // 20
+          this.timer1.setTimer(5);
           this.timer1.startTimer();
           this.showCount = -1;
-          /*
-          self = this;
-          setTimeout( function() {
-            self.players[0].state = "name pstring grid hilighted";
-            console.log("Hilighting player 0");
-            self.ref.markForCheck();
-            setTimeout(function() {
-              //self.players[0].state = "name pstring grid";
-              console.log("Un-Hilighting player 0");
-              self.ref.markForCheck();
-            },5000);
-          }, 2000);
-          */
         }
       break;
       case SHOWING_NAMES:
@@ -317,7 +265,7 @@ export class GameComponent implements OnInit, OnDestroy{
             setTimeout(function() { self.startGame() }, 500);
           } else {
             // Run the timer again
-            this.timer1.setTimer(5); // 20
+            this.timer1.setTimer(5);
             this.timer1.startTimer();
           }
         }
@@ -368,7 +316,6 @@ export class GameComponent implements OnInit, OnDestroy{
 
   shouldAnimate() {
     return !this.isPaused && this.gameState != SHOWING_NAMES && this.gameState != SHOWING_PSTRINGS;
-    //return this.gameState != SHOWING_NAMES && this.gameState != SHOWING_PSTRINGS;
   }
 
   // The animation loop.
@@ -378,7 +325,6 @@ export class GameComponent implements OnInit, OnDestroy{
     var w = self.parent.clientWidth;
     var h = self.parent.clientHeight;
     var animate = function() {
-      // console.log("w:",w,"h:",h);
       if (self.shouldAnimate()) {
         self.players.forEach( p => {
           p.setBoundingBox(w,h);

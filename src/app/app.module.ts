@@ -3,8 +3,6 @@ import { NgModule } from '@angular/core';
 import { HttpClientModule } from '@angular/common/http';
 
 import { AppComponent } from './app.component';
-// import { GameComponent } from './app/game/game.component';
-import { ProductService } from './product/product.service';
 import { GameComponent } from './game/game.component';
 import { PlayerVisualComponent } from './visuals/player-visual/player-visual.component';
 
@@ -24,7 +22,6 @@ import { TimerVisualComponent } from './visuals/timer-visual/timer-visual.compon
     HttpClientModule,
     AppRoutingModule
   ],
-  providers: [ProductService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
