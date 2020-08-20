@@ -9,10 +9,12 @@ export class Timer {
   public currentTick: number;
   public message: string;
   public active: boolean;
+  public runState: string;
   private timerId: number;
   private tickCallback;
   private expiredCallback;
   private state: number;
+
 
   constructor(private seconds:number, tickCb, expiredCb) {
     this.tickCallback = tickCb;
@@ -22,11 +24,13 @@ export class Timer {
     this.currentTick = 0;
     this.timerId = 0;
     this.state = CLEARED;
+    this.runState = 'cleared';
   }
 
   private emitTimerExpiredEvent() {
     console.log("Expired ",this.timerId);
     this.state = EXPIRED;
+    this.runState = 'expired';
     this.expiredCallback();
   }
 
@@ -37,6 +41,7 @@ export class Timer {
 
   pauseTimer() {
     console.log('Pausing timer ',this.timerId);
+    this.runState = 'paused';
     this.state = PAUSED;
     clearInterval(this.timerId);
   }
@@ -57,6 +62,7 @@ export class Timer {
       },
       1000);
       this.state = RUNNING;
+      this.runState = 'running';
     }
   }
 
@@ -84,6 +90,9 @@ export class Timer {
 
   setMessage(msg) {
     this.message = msg;
+    if (msg == '') {
+      this.runState = 'silent';
+    }
   }
 
 }

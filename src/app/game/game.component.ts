@@ -224,7 +224,7 @@ export class GameComponent implements OnInit, OnDestroy{
           this.gameState = WAIT_MIN_PLAYERS;
         } else {
           this.timer1.stopTimer();
-          this.timer1.setMessage("Place your badge on the table to play!");
+          this.timer1.setMessage("Come over and make new friends!");
         }
       break;
       case WAIT_MIN_PLAYERS:
@@ -256,7 +256,7 @@ export class GameComponent implements OnInit, OnDestroy{
           this.gameState = SHOWING_PSTRINGS;
           this.setStateOfPlayers('pstring grid');
           this.timer1.setMessage("Match people to statements!");
-          this.timer1.setTimer(5); // 20
+          this.timer1.setTimer(20); // 20
           this.timer1.startTimer();
           /*
           if (this.addPlayersFromQueue() > 0) {
@@ -367,8 +367,8 @@ export class GameComponent implements OnInit, OnDestroy{
   }
 
   shouldAnimate() {
-    //return !this.isPaused && this.gameState != SHOWING_NAMES && this.gameState != SHOWING_PSTRINGS;
-    return this.gameState != SHOWING_NAMES && this.gameState != SHOWING_PSTRINGS;
+    return !this.isPaused && this.gameState != SHOWING_NAMES && this.gameState != SHOWING_PSTRINGS;
+    //return this.gameState != SHOWING_NAMES && this.gameState != SHOWING_PSTRINGS;
   }
 
   // The animation loop.

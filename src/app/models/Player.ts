@@ -1,4 +1,18 @@
-
+/*
+* Some background colors you might consider:
+* pink: #fce4ec
+* lightpurple: #d1c4e9
+* lightblue: #e3f2fd
+* light blue-green #e0f7fa
+* darker blue-green #b2dfdb
+* light olive #dcedc8
+* light tan #f0f4c3
+* light orange #ffe082
+* peach: #ffe0b2
+* light grey: #d7ccc8
+* lighter grey:  #f5f5f5
+* light blue: #80d8ff
+ */
 export class Player {
   x: number;
   y: number;
@@ -71,7 +85,7 @@ export class Player {
   }
 
   resetVelocity() {
-    this.velocity = 5+Math.random()*3;
+    this.velocity = 2+Math.random()*3;
   }
 
   resetVectors() {

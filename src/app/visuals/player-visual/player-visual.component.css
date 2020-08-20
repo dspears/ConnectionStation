@@ -17,7 +17,7 @@ div.player {
     box-shadow: 3px 5px 9px 1px #8888a9;
     background: rgb(188, 218, 159);
 
-    background-color: rgb(243, 228, 83);
+    background-color: rgb(251, 239, 145); /* rgb(243, 228, 83); */
     color: black; /*rgb(177, 19, 216);*/
     border-color: rgb(216, 209, 19);
 }
@@ -73,18 +73,18 @@ div.player.pstring.grid {
   animation-fill-mode: forwards;
 }
 
-div#player1.grid  { top:200px !important; left:290px !important; }
-div#player2.grid  { top:200px !important; left:630px !important; }
-div#player3.grid  { top:200px !important; left:970px !important; }
-div#player4.grid  { top:200px !important; left:1310px !important; }
-div#player5.grid  { top:400px !important; left:290px !important; }
-div#player6.grid  { top:400px !important; left:630px !important; }
-div#player7.grid  { top:400px !important; left:970px !important; }
-div#player8.grid  { top:400px !important; left:1310px !important; }
-div#player9.grid  { top:600px !important; left:290px !important; }
-div#player10.grid { top:600px !important; left:630px !important; }
-div#player11.grid { top:600px !important; left:970px !important; }
-div#player12.grid { top:600px !important; left:1310px !important; }
+div#player1.grid  { top:200px !important; left:11% !important; }
+div#player2.grid  { top:200px !important; left:31% !important; }
+div#player3.grid  { top:200px !important; left:51% !important; }
+div#player4.grid  { top:200px !important; left:71% !important; }
+div#player5.grid  { top:420px !important; left:11% !important; }
+div#player6.grid  { top:420px !important; left:31% !important; }
+div#player7.grid  { top:420px !important; left:51% !important; }
+div#player8.grid  { top:420px !important; left:71% !important; }
+div#player9.grid  { top:640px !important; left:11% !important; }
+div#player10.grid { top:640px !important; left:31% !important; }
+div#player11.grid { top:640px !important; left:51% !important; }
+div#player12.grid { top:640px !important; left:71% !important; }
 
 div#player1.grid.hilighted,
 div#player2.grid.hilighted,
@@ -98,10 +98,10 @@ div#player9.grid.hilighted,
 div#player10.grid.hilighted,
 div#player11.grid.hilighted,
 div#player12.grid.hilighted {
-  top: 400px !important;
-  left: 800px !important;
+  top: 410px !important;
+  left: 41% !important;
   animation-name: hilightPosition;
-  animation-duration: 2s;
+  animation-duration: 1s;
   animation-timing-function: ease-in-out;
   animation-fill-mode: forwards;
   /*animation-direction: alternate;
@@ -111,8 +111,8 @@ div#player12.grid.hilighted {
 @keyframes hilightPosition {
   0% {
     transform: scale(1, 1);
-    width: 330px;
-    height: 150px;
+    width: 18%; /* 330px */
+    height: 160px;
     background: lightgreen;
     border-radius: 30px;
     font-size: 21px;
@@ -122,8 +122,8 @@ div#player12.grid.hilighted {
   100% {
     transform: scale(1.4, 1.4);
     border-color: gold;
-    width: 330px;
-    height: 150px;
+    width: 18%; /* 330px */
+    height: 160px;
     background: lightgreen;
     border-radius: 30px;
     font-size: 21px;
@@ -147,8 +147,8 @@ div#player12.grid.hilighted {
   }
 
   100% {
-    width: 330px;
-    height: 150px;
+    width: 18%; /* 330px */
+    height: 160px;
     background: lightgreen;
     border-radius: 30px;
     font-size: 21px;
